@@ -4,6 +4,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.HttpObject;
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
+import org.littleshoot.proxy.impl.ClientToProxyConnection;
 
 import java.net.InetSocketAddress;
 
@@ -102,5 +103,10 @@ public class HttpFiltersAdapter implements HttpFilters {
 
     @Override
     public void proxyToServerConnectionSucceeded(ChannelHandlerContext serverCtx) {
+    }
+
+    @Override
+    public boolean handleClientToProxyRequestWithCustomResponse(ClientToProxyConnection clientToProxyConnection) {
+        return false;
     }
 }

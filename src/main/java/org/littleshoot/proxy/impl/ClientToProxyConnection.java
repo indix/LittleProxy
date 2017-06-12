@@ -238,6 +238,11 @@ public class ClientToProxyConnection extends ProxyConnection<HttpRequest> {
             currentFilters = HttpFiltersAdapter.NOOP_FILTER;
         }
 
+        //Check if the response handling is undertaken by the caller
+        if(currentFilters.handleClientToProxyRequestWithCustomResponse(this)){
+            return AWAITING_INITIAL;
+        }
+
         // Send the request through the clientToProxyRequest filter, and respond with the short-circuit response if required
         HttpResponse clientToProxyFilterResponse = currentFilters.clientToProxyRequest(httpRequest);
 
@@ -1265,7 +1270,7 @@ public class ClientToProxyConnection extends ProxyConnection<HttpRequest> {
      * @param httpResponse the response to return to the client
      * @return true if the connection will be kept open, or false if it will be disconnected.
      */
-    private boolean respondWithShortCircuitResponse(HttpResponse httpResponse) {
+    public boolean respondWithShortCircuitResponse(HttpResponse httpResponse) {
         // we are sending a response to the client, so we are done handling this request
         this.currentRequest = null;
 

@@ -2,6 +2,7 @@ package org.littleshoot.proxy;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.*;
+import org.littleshoot.proxy.impl.ClientToProxyConnection;
 import org.littleshoot.proxy.impl.ProxyUtils;
 
 import java.net.InetSocketAddress;
@@ -207,5 +208,12 @@ public interface HttpFilters {
      * @param serverCtx the {@link io.netty.channel.ChannelHandlerContext} used to connect to the server
      */
     void proxyToServerConnectionSucceeded(ChannelHandlerContext serverCtx);
+
+    /**
+     * When returned true, assumes the caller directly write response to the underlying channel
+     * @param clientToProxyConnection
+     * @return
+     */
+    boolean handleClientToProxyRequestWithCustomResponse(ClientToProxyConnection clientToProxyConnection);
 
 }

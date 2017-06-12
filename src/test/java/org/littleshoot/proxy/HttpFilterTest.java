@@ -14,6 +14,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.littleshoot.proxy.extras.SelfSignedSslEngineSource;
+import org.littleshoot.proxy.impl.ClientToProxyConnection;
 import org.littleshoot.proxy.impl.DefaultHttpProxyServer;
 import org.littleshoot.proxy.test.HttpClientUtil;
 import org.mockserver.integration.ClientAndServer;
@@ -908,6 +909,11 @@ public class HttpFilterTest {
         }
 
         @Override
+        public boolean handleClientToProxyRequestWithCustomResponse(ClientToProxyConnection clientToProxyConnection) {
+            return false;
+        }
+
+        @Override
         public HttpResponse clientToProxyRequest(HttpObject httpObject) {
             clientToProxyRequest.set(true);
             return null;
@@ -986,5 +992,6 @@ public class HttpFilterTest {
         public void proxyToServerConnectionSSLHandshakeStarted() {
             proxyToServerConnectionSSLHandshakeStarted.set(true);
         }
+
     }
 }
